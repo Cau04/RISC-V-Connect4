@@ -261,10 +261,6 @@ winner:
         ecall
         j exit
 
-
-
-
-
 nextTurn:
     not s10 s10
     j gameLoop
