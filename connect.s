@@ -282,6 +282,8 @@ p2won:
     .string "Player 2 has won \n"
 nowin:
     .string "Tie, no one wins \n"
+    
+# buffer to prevent important registers from being overwritten
 board:
     .word 0x00000000
     .word 0x00000000
