@@ -2,24 +2,28 @@ li s11 0   # register to store win state
 li s10 0   # keep track of player turn
 li s9 0    # reg to store color
 
+# initalize board information
+li s7, 7        # board size
+slli s8 s7 2    # board size in bytes
+li s6 4         # to compare streak against
+
 gameLoop:
     jal getInput
 
     # convert ascii to int
-    li t0 48
-    sub a1 a1 t0
+    addi a1 a1 -48
+
+    #check for invlaid input
+    blt a1 x0 gameLoop
+    bge a1 s7 gameLoop    
 
     li a0 0x100     # turn led matrix on
     la s0 board     # load address of the board
-    li s2, 0        # data col shift
-    li s7, 7        # board size
-    slli s8 s7 2    # board size in bytes
-    li s6 4         # to compare streak against
 
     # a1 col a3 row
     jal placeChip
     srai a1 a1 16
-    
+
     jal verticle    # check col for win
     jal horizontal  # check row for win
     jal downRight   # check down right diagonal
@@ -261,6 +265,10 @@ winner:
         ecall
         j exit
 
+
+
+
+
 nextTurn:
     not s10 s10
     j gameLoop
@@ -282,8 +290,6 @@ p2won:
     .string "Player 2 has won \n"
 nowin:
     .string "Tie, no one wins \n"
-    
-# buffer to prevent important registers from being overwritten
 board:
     .word 0x00000000
     .word 0x00000000
