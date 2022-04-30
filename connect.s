@@ -40,6 +40,7 @@ gameLoop:
         beq t1 s7 tie
         beq t0 x0 nextTurn
         addi s1 s1 1
+        addi t1 t1 1
         j loopf
         
 getInput:
